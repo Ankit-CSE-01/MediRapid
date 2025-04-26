@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediRapid - About Us</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f9f9f9;
+            scroll-behavior: smooth;
+        }
+        .gradient-text {
+            background: linear-gradient(90deg, #2ecc71, #3498db);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 4px;
+            background: linear-gradient(90deg, #2ecc71, #3498db);
+            margin: 10px auto;
+        }
+    </style>
+</head>
+<body class="text-gray-900">
+
+    <!-- Header Section -->
+    <header class="bg-gray-900 text-white py-12 text-center">
+        <h1 class="text-4xl font-bold gradient-text">MediRapid</h1>
+        <p class="text-lg mt-4">AI-Powered Emergency Medical Services</p>
+    </header>
+
+    <!-- Features Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center gradient-text section-title">Features</h2>
+            <div class="grid md:grid-cols-3 gap-8 mt-10">
+                <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                    <i class="fas fa-robot text-4xl text-green-600 mb-4"></i>
+                    <h3 class="text-xl font-semibold">AI Diagnostics</h3>
+                    <p class="mt-2 text-gray-700">Advanced symptom analysis and emergency guidance powered by machine learning.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                    <i class="fas fa-map-marker-alt text-4xl text-blue-600 mb-4"></i>
+                    <h3 class="text-xl font-semibold">Hospital Locator</h3>
+                    <p class="mt-2 text-gray-700">GPS-based feature to locate the nearest hospitals quickly.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                    <i class="fas fa-first-aid text-4xl text-red-600 mb-4"></i>
+                    <h3 class="text-xl font-semibold">First Aid Guide</h3>
+                    <p class="mt-2 text-gray-700">Interactive step-by-step instructions for handling emergency medical situations.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technologies Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold gradient-text section-title">Technologies Used</h2>
+            <p class="mt-4 text-gray-700">MediRapid is built using modern web technologies:</p>
+            <ul class="mt-6 space-y-3 text-gray-700">
+                <li>HTML for structuring the web interface.</li>
+                <li>CSS (Tailwind CSS) for responsive and modern design.</li>
+                <li>JavaScript for dynamic functionality including animations and API integration.</li>
+                <li>Google Maps API for hospital location mapping and navigation.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Installation Section -->
+    <section id="installation" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center gradient-text section-title">Installation</h2>
+            <ol class="mt-8 space-y-4 text-gray-700 max-w-3xl mx-auto">
+                <li>1. Clone the repository:
+                    <pre class="bg-gray-800 text-white p-4 rounded mt-2">git clone https://github.com/Ankit-CSE-01/MediRapid.git</pre>
+                </li>
+                <li>2. Navigate to the project directory:
+                    <pre class="bg-gray-800 text-white p-4 rounded mt-2">cd MediRapid</pre>
+                </li>
+                <li>3. Set up a local server using tools like XAMPP or WAMP.</li>
+                <li>4. Run the application by navigating to <code>http://localhost/MediRapid</code> in your browser.</li>
+            </ol>
+        </div>
+    </section>
+
+    <!-- Usage Section -->
+    <section id="usage" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center gradient-text section-title">Usage</h2>
+            <ul class="mt-8 space-y-4 text-gray-700 max-w-3xl mx-auto">
+                <li><strong>Find Nearest Hospitals:</strong> Click the "Find Hospitals" button to locate nearby hospitals using GPS.</li>
+                <li><strong>AI Emergency Guide:</strong> Access the AI-powered chatbot for medical guidance based on symptoms.</li>
+                <li><strong>First Aid Instructions:</strong> Get interactive guides for handling common medical emergencies.</li>
+                <li><strong>Provide Feedback:</strong> Submit your feedback to help improve MediRapid services.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-12 bg-gray-900 text-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold gradient-text section-title">Contact</h2>
+            <p class="mt-4">For any questions or feedback, feel free to contact us:</p>
+            <ul class="mt-6 space-y-3 text-gray-400">
+                <li><i class="fas fa-envelope mr-2"></i> Email: contact@medirapid.com</li>
+                <li><i class="fas fa-phone mr-2"></i> Phone: +91 7569884170</li>
+                <li><i class="fas fa-map-marker-alt mr-2"></i> Location: Jalandhar, Punjab</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 bg-gray-900 text-center text-gray-500">
+        <p>© 2023 MediRapid Technologies. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
