@@ -1,0 +1,1380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediRapid - AI-Powered Emergency Medical Services</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        :root {
+            --primary: #2ecc71;
+            --secondary: #27ae60;
+            --accent: #3498db;
+            --emergency: #e74c3c;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
+            --bot-bubble: #e8f8f5;
+            --user-bubble: #2ecc71;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f9f9f9;
+            scroll-behavior: smooth;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+        }
+        /* Add these new styles to the existing <style> section */
+            .sliding-background {
+    background-image: 
+        linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+        url('https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80'),
+        url('https://images.unsplash.com/photo-1581056771107-24ca5f033842?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80'),
+        url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80');
+    background-size: cover, cover, cover, cover;
+    background-position: center, center, center, center;
+    background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
+    animation: slidingBackground 20s ease infinite;
+    background-attachment: fixed;
+}
+@keyframes slidingBackground {
+    0%, 100% {
+        background-position: 
+            center, 
+            0% 50%, 
+            100% 50%, 
+            50% 100%;
+    }
+    25% {
+        background-position: 
+            center, 
+            100% 50%, 
+            50% 100%, 
+            0% 50%;
+    }
+    50% {
+        background-position: 
+            center, 
+            50% 100%, 
+            0% 50%, 
+            100% 50%;
+    }
+    75% {
+        background-position: 
+            center, 
+            0% 50%, 
+            100% 50%, 
+            50% 100%;
+    }
+}
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .floating {
+            animation: floating 6s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .glow {
+            box-shadow: 0 0 15px rgba(46, 204, 113, 0.5);
+        }
+        
+        .hospital-card {
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--primary);
+            position: relative;
+            overflow: hidden;
+            background-color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .hospital-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .hospital-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.1) 0%, rgba(39, 174, 96, 0.1) 100%);
+            z-index: 0;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .hospital-card:hover::before {
+            opacity: 1;
+        }
+        
+        .emergency-card {
+            border-left: 4px solid var(--emergency);
+            animation: emergency-pulse 1.5s infinite;
+        }
+        
+        @keyframes emergency-pulse {
+            0% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(231, 76, 60, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0); }
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 2rem;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            transform: translateY(20px);
+            opacity: 0;
+            animation: modalSlideIn 0.4s ease forwards;
+        }
+        
+        @keyframes modalSlideIn {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        #map {
+            height: 500px;
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .loading-spinner {
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .typing-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1em;
+            background-color: var(--dark);
+            animation: blink 1s infinite;
+            vertical-align: middle;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        
+        /* Enhanced Chatbot Styles */
+        .chat-container {
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            height: 600px;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .chat-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .chat-header i {
+            font-size: 1.5rem;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            background-color: #f9f9f9;
+        }
+        
+        .message {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            line-height: 1.5;
+            position: relative;
+            animation: fadeIn 0.3s ease;
+            font-size: 0.95rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .bot-message {
+            align-self: flex-start;
+            background-color: var(--bot-bubble);
+            color: var(--dark);
+            border-top-left-radius: 5px;
+        }
+        
+        .user-message {
+            align-self: flex-end;
+            background-color: var(--user-bubble);
+            color: white;
+            border-top-right-radius: 5px;
+        }
+        
+        .quick-replies {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 0.75rem 1rem;
+            background-color: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .quick-reply {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            padding: 8px 14px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .quick-reply:hover {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .input-area {
+            display: flex;
+            padding: 1rem;
+            background-color: white;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .input-area input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            outline: none;
+            font-size: 0.95rem;
+            transition: border-color 0.2s;
+        }
+        
+        .input-area input:focus {
+            border-color: var(--primary);
+        }
+        
+        .input-area button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            margin-left: 12px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .input-area button:hover {
+            background-color: var(--secondary);
+        }
+        
+        .input-area button i {
+            font-size: 1.2rem;
+        }
+        
+        .typing-indicator {
+            display: flex;
+            align-self: flex-start;
+            padding: 12px 16px;
+            background-color: var(--bot-bubble);
+            border-radius: 18px;
+            margin-bottom: 16px;
+        }
+        
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #666;
+            border-radius: 50%;
+            margin: 0 3px;
+            animation: typingAnimation 1.4s infinite ease-in-out;
+        }
+        
+        .typing-dot:nth-child(1) {
+            animation-delay: 0s;
+        }
+        
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes typingAnimation {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-5px); }
+        }
+        
+        .symptom-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        
+        .symptom-option {
+            background-color: white;
+            border: 1px solid var(--primary);
+            border-radius: 15px;
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .symptom-option:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .disclaimer {
+            background-color: #fff8e1;
+            color: #e65100;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            font-size: 0.85rem;
+            border-left: 4px solid #ffc107;
+        }
+        
+        .chatbot-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+        
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: var(--user-bubble);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 10px;
+            flex-shrink: 0;
+        }
+        
+        .message-container {
+            display: flex;
+            max-width: 90%;
+            align-items: flex-start;
+        }
+        
+        .bot-message-container {
+            align-self: flex-start;
+        }
+        
+        .user-message-container {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+        
+        .message-time {
+            font-size: 0.7rem;
+            color: #6b7280;
+            margin-top: 4px;
+            text-align: right;
+        }
+        
+        .medical-icon {
+            font-size: 1.5rem;
+            margin-right: 8px;
+        }
+        
+        /* New additions */
+        .section-title {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 2rem;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 50%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 2px;
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .stats-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .stats-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stats-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stats-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .testimonial-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        .testimonial-card:before {
+            content: '"';
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            font-size: 4rem;
+            color: rgba(46, 204, 113, 0.1);
+            font-family: serif;
+            line-height: 1;
+        }
+        
+        .testimonial-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            margin-top: 1rem;
+        }
+        
+        .testimonial-author img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 1rem;
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 1s ease forwards;
+        }
+        
+        .animate-slide-up {
+            animation: slideUp 0.8s ease forwards;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-fade-out {
+    animation: fadeOut 0.3s ease forwards;
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(-20px); }
+}
+
+#emergencyMap {
+    min-height: 300px;
+}
+.faculty-login-btn {
+            background-color: #0d9f6e;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            transition: all 0.3s ease;
+            margin-right: 1rem;
+        }
+        
+        .faculty-login-btn:hover {
+            background-color: white;
+            transform: translateY(-2px);
+        }
+        
+        .faculty-register-btn {
+            background-color:white;
+            color: #10b981;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            transition: all 0.3s ease;
+        }
+        
+        .faculty-register-btn:hover {
+            background-color: #0d9f6e;
+            transform: translateY(-2px);
+        }
+        
+        /* Add to mobile menu */
+        #mobileMenu .faculty-btn {
+            display: block;
+            width: 100%;
+            text-align: center;
+            margin: 0.5rem 0;
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+        }
+        
+        .animation-delay-02 {
+            animation-delay: 0.2s;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-gray-900">
+    <!-- Enhanced Navigation -->
+    <nav class="fixed w-full z-50 bg-white shadow-md transition-all duration-300">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="relative">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIdZ5QHsaZ3GRnCvn-oq8pH_CVe56woKXYPQ&s" class="h-10 w-10 rounded-full glow" alt="MediRapid Logo">
+                    <span class="absolute top-0 right-0 h-3 w-3 rounded-full bg-green-500 animate-pulse"></span>
+                </div>
+                <h1 class="text-2xl font-bold gradient-text">MediRapid</h1>
+            </div>
+            <div class="hidden md:flex space-x-8">
+                <a href="#emergency" class="text-gray-700 hover:text-green-600 transition duration-300 flex items-center">
+                    <i class="fas fa-ambulance mr-2"></i>Emergency
+                </a>
+                <a href="#services" class="text-gray-700 hover:text-green-600 transition duration-300 flex items-center">
+                    <i class="fas fa-hospital mr-2"></i>Services
+                </a>
+                <a href="#contact" class="text-gray-700 hover:text-green-600 transition duration-300 flex items-center">
+                    <i class="fas fa-phone mr-2"></i>Contact
+                </a>
+                <!-- Faculty Login/Register Buttons -->
+          <!-- <div class="flex items-center space-x-2 ml-4">
+            <a href="faculty-login.php" class="faculty-login-btn">
+                <i class="fas fa-sign-in-alt mr-2"></i>Hospital Login
+            </a>
+            <a href="faculty-register.php" class="faculty-register-btn">
+                <i class="fas fa-user-plus mr-2"></i>Register
+            </a>
+        </div> -->
+    </div>
+            </div>
+            
+                <button type="button" class="md:hidden text-gray-700 focus:outline-none" id="mobileMenuButton" title="Toggle Mobile Menu">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-white shadow-lg absolute w-full left-0 px-4 pb-4">
+            <a href="#emergency" class="block py-2 text-gray-700 hover:text-green-600">
+                <i class="fas fa-ambulance mr-2"></i>Emergency
+            </a>
+            <a href="#services" class="block py-2 text-gray-700 hover:text-green-600">
+                <i class="fas fa-hospital mr-2"></i>Services
+            </a>
+            <a href="#ai-assistant" class="block py-2 text-gray-700 hover:text-green-600">
+                <i class="fas fa-robot mr-2"></i>AI Assistant
+            </a>
+            <a href="#contact" class="block py-2 text-gray-700 hover:text-green-600">
+                <i class="fas fa-phone mr-2"></i>Contact
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section with AI Typing Effect -->
+        <header class="sliding-background text-gray-900 pt-32 pb-24 relative overflow-hidden">
+
+        <div class="container mx-auto px-4 text-center relative z-10">
+            <div class="max-w-4xl mx-auto">
+                <h1 class="text-5xl md:text-6xl font-bold mb-6 animate-fade-in">
+                    <span id="typed" class="gradient-text"></span>
+                </h1>
+                <p class="text-xl md:text-2xl mb-10 text-white">
+                    Provides GPS-based feature to locate the nearest hospitals quickly and an AI-powered health chatbot for instant medical guidance
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <button id="findHospitalsBtn" class="bg-white text-green-600 px-8 py-4 rounded-full shadow-lg transition duration-300 transform hover:scale-105 hover:shadow-xl flex items-center justify-center border-2 border-green-600">
+                        <i class="fas fa-map-marker-alt mr-3"></i>Find Hospitals
+                    </button>
+                    <button onclick="window.location.href='ai-diagnostic.html'" class="bg-green-600 text-white px-8 py-4 rounded-full shadow-lg transition duration-300 transform hover:scale-105 hover:shadow-xl flex items-center justify-center">
+                        <i class="fas fa-robot mr-3"></i>AI Emergency Guide
+                    </button>
+                </div>
+            </div>
+        <div class="absolute top-20 left-10 text-green-300 text-4xl floating animation-delay-02">
+        
+        <!-- Floating medical icons -->
+        <div class="absolute top-20 left-10 text-green-300 text-4xl floating" style="animation-delay: 0.2s;">
+            <i class="fas fa-heartbeat"></i>
+        </div>
+        <div class="absolute bottom-20 right-10 text-green-300 text-4xl floating" style="animation-delay: 0.4s;">
+            <i class="fas fa-ambulance"></i>
+        </div>
+        <div class="absolute top-1/3 right-1/4 text-green-300 text-4xl floating" style="animation-delay: 0.6s;">
+            <i class="fas fa-hospital"></i>
+        </div>
+    </header>
+
+    <!-- Stats Section -->
+    <section class="py-16 bg-gradient-to-r from-green-50 to-blue-50">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="stats-card animate-slide-up" style="animation-delay: 0.1s;">
+                    <div class="stats-number">24/7</div>
+                    <div class="stats-label">Instant Access
+                    </div>
+                </div>
+                <div class="stats-card animate-slide-up" style="animation-delay: 0.2s;">
+                    <div class="stats-number">100%</div>
+                    <div class="stats-label">Free Service</div>
+                </div>
+                <div class="stats-card animate-slide-up" style="animation-delay: 0.3s;">
+                    <div class="stats-number">100+</div>
+                    <div class="stats-label">Positive feedbacks</div>
+                </div>
+                <div class="stats-card animate-slide-up" style="animation-delay: 0.4s;">
+                    <div class="stats-number">2min</div>
+                    <div class="stats-label">Average Response</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section with Hover Effects -->
+    <section id="services" class="py-16 sliding-background">
+
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 gradient-text section-title">
+                    <i class="fas fa-medkit mr-4"></i>Our Services
+                </h2>
+                <p class="text-xl text-white max-w-3xl mx-auto">
+                    Comprehensive emergency medical services powered by AI technology
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="hospital-card bg-white p-8 rounded-xl shadow-md animate-slide-up" style="animation-delay: 0.2s;">
+                    <div class="text-green-600 text-5xl mb-6 flex justify-center">
+                        <i class="fas fa-ambulance floating" style="animation-delay: 0.2s;"></i>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-4 text-center">Find nearest hospitals</h3>
+                    <p class="text-black mb-6 text-center">
+                        finding hospitals near you is just a click away.
+                    </p>
+                    <div class="text-center">
+                        <button onclick="window.location.href='http://localhost/hosp/hospitals.php'" class="bg-green-600 text-white px-8 py-4 rounded-full shadow-lg transition duration-300 transform hover:scale-105 hover:shadow-xl flex items-center justify-center mx-auto">
+                            <i class=" mr-3"></i>Click here
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="hospital-card bg-white p-8 rounded-xl shadow-md animate-slide-up" style="animation-delay: 0.4s;">
+                    <div class="text-blue-600 text-5xl mb-6 flex justify-center">
+                        <i class="fas fa-robot floating" style="animation-delay: 0.4s;"></i>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-4 text-center">AI Diagnostics</h3>
+                    <p class="text-gray-600 mb-6 text-center">
+                        Advanced symptom analysis and emergency guidance powered by machine learning
+                    </p>
+                    <button onclick="window.location.href='ai-diagnostic.html'" class="bg-blue-600 text-white px-8 py-4 rounded-full shadow-lg transition duration-300 transform hover:scale-105 hover:shadow-xl flex items-center justify-center mx-auto">
+                        <i class="fas fa-robot mr-3"></i>AI Diagnostics
+                    </button>
+                </div>
+                
+                <div class="emergency-card bg-white p-8 rounded-xl shadow-md animate-slide-up" style="animation-delay: 0.6s;">
+                    <div class="text-red-600 text-5xl mb-6 flex justify-center">
+                        <i class="fas fa-first-aid floating" style="animation-delay: 0.6s;"></i>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-4 text-center">First Aid Guide</h3>
+                    <p class="text-gray-600 mb-6 text-center">
+                        Interactive step-by-step instructions for emergency medical situations
+                    </p>
+                    <div class="text-center">
+                        
+                        <button onclick="window.location.href='firstaid.html'" class="bg-red-600 text-white px-8 py-4 rounded-full shadow-lg transition duration-300 transform hover:scale-105 hover:shadow-xl flex items-center justify-center mx-auto">
+                            <i class="fas fa-robot mr-3"></i>Access Guide
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Emergency Section -->
+    <!-- Emergency Section -->
+<section id="emergency" class="py-16 sliding-background">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4 gradient-text section-title">
+                <i class="fas fa-exclamation-triangle mr-4"></i>Emergency Contacts
+            </h2>
+            <p class="text-xl text-white max-w-3xl mx-auto">
+                Immediate assistance when you need it most
+            </p>
+        </div>
+        
+        <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-xl overflow-hidden animate-slide-up">
+            <div class="p-8">
+                <h3 class="text-xl font-semibold mb-4">Emergency Contacts</h3>
+                <div class="grid grid-cols-2 gap-4">
+                    <!-- Each emergency card -->
+                    <div class="bg-green-50 p-4 rounded-lg shadow-sm border border-green-100">
+                        <p class="text-xs text-gray-600 mb-1">Ambulance</p>
+                        <p class="text-lg font-bold text-black">108</p>
+                    </div>
+                    <div class="bg-green-50 p-4 rounded-lg shadow-sm border border-green-100">
+                        <p class="text-xs text-gray-600 mb-1">Medical Emergency</p>
+                        <p class="text-lg font-bold text-black">102</p>
+                    </div>
+                    <div class="bg-green-50 p-4 rounded-lg shadow-sm border border-green-100">
+                        <p class="text-xs text-gray-600 mb-1">Poison Control</p>
+                        <p class="text-lg font-bold text-black">1800-116-117</p>
+                    </div>
+                    <div class="bg-green-50 p-4 rounded-lg shadow-sm border border-green-100">
+                        <p class="text-xs text-gray-600 mb-1">COVID Helpline</p>
+                        <p class="text-lg font-bold text-black">1075</p>
+                    </div>
+                    <div class="bg-green-50 p-4 rounded-lg shadow-sm border border-green-100">
+                        <p class="text-xs text-gray-600 mb-1">Cardiac Emergency</p>
+                        <p class="text-lg font-bold text-black">1056</p>
+                    </div>
+                    <div class="bg-green-50 p-4 rounded-lg shadow-sm border border-green-100">
+                        <p class="text-xs text-gray-600 mb-1">Mental Health</p>
+                        <p class="text-lg font-bold text-black">080-46110007</p>
+                    </div>
+                    <div class="bg-green-50 p-4 rounded-lg shadow-sm border border-green-100">
+                        <p class="text-xs text-gray-600 mb-1">Blood Bank</p>
+                        <p class="text-lg font-bold text-black">104</p>
+                    </div>
+                    <div class="bg-green-50 p-4 rounded-lg shadow-sm border border-green-100">
+                        <p class="text-xs text-gray-600 mb-1">Women Helpline</p>
+                        <p class="text-lg font-bold text-black">1091</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+                </section>
+
+    <!-- Feedback Section -->
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4 gradient-text section-title">
+                <i class="fas fa-comment-medical mr-4"></i>Provide Feedback
+            </h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Help us improve our emergency medical services
+            </p>
+        </div>
+        
+        <div class="max-w-2xl mx-auto bg-white p-8 rounded-xl shadow-md">
+            <a href="http://localhost/PHP-SEND-MAIL/contact.php">
+                <button type="button" 
+                    class="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition flex items-center justify-center">
+                    <i class="fas fa-paper-plane mr-2"></i> Click here!
+                </button>
+            </a>
+            </form>
+        </div>
+    </div>
+</section>
+
+
+    <!-- Hospital Finder Modal -->
+    <div id="locationModal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold gradient-text">
+                    <i class="fas fa-hospital mr-2"></i>Find Nearby Hospitals
+                </h2>
+                <button id="closeModal" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+            </div>
+
+            
+            <div class="mb-6">
+                <button id="useCurrentLocation" class="w-full bg-white text- #10b981 py-3 rounded-lg hover:bg-green-600 transition flex items-center justify-center">
+                    <i class="fas fa-location-arrow mr-2"></i>Use Current Location
+                </button>
+            </div>
+            
+            
+            
+            <div id="errorMessage" class="text-red-500 text-center mt-4 hidden"></div>
+            
+            <div class="mt-6 pt-6 border-t border-gray-200">
+                <p class="text-sm text-gray-500 text-center">
+                    <i class="fas fa-shield-alt mr-1"></i> Your location data is secure and encrypted
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Emergency Modal -->
+    <div id="emergencyModal" class="modal">
+        <div class="modal-content">
+            <div class="text-center">
+                <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-red-100 mb-4">
+                    <i class="fas fa-exclamation-triangle text-red-600 text-2xl"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-red-600 mb-2">EMERGENCY ALERT</h2>
+                <p class="text-gray-700 mb-6">You are about to trigger an emergency response. Please confirm.</p>
+                
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                    <div class="bg-red-50 p-4 rounded-lg">
+                        <p class="text-sm text-gray-600 mb-1">Emergency Services</p>
+                        <p class="font-bold">108 </p>
+                    </div>
+                    <div class="bg-red-50 p-4 rounded-lg">
+                        <p class="text-sm text-gray-600 mb-1">Your Location</p>
+                        <p class="font-bold" id="emergencyLocation">Detecting...</p>
+                    </div>
+                </div>
+                
+                <div class="flex flex-col space-y-3">
+                    <button id="confirmEmergency" class="w-full bg-red-600 text-white py-3 rounded-lg hover:bg-red-700 transition flex items-center justify-center pulse-animation">
+                        <i class="fas fa-phone-alt mr-2"></i> CALL EMERGENCY SERVICES
+                    </button>
+                    <button id="cancelEmergency" class="w-full bg-gray-200 text-gray-700 py-3 rounded-lg hover:bg-gray-300 transition">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer id="contact" class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIdZ5QHsaZ3GRnCvn-oq8pH_CVe56woKXYPQ&s" class="h-10 w-10 mr-3 rounded-full" alt="Logo">
+                        <h3 class="text-xl font-bold gradient-text">MediRapid</h3>
+                    </div>
+                    <p class="text-gray-400">AI-powered emergency medical response system saving lives through technology.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#emergency" class="text-gray-400 hover:text-white transition">Emergency</a></li>
+                        <li><a href="#services" class="text-gray-400 hover:text-white transition">Services</a></li>
+                        <li><a href="#ai-assistant" class="text-gray-400 hover:text-white transition">AI Assistant</a></li>
+                        <li><a href="firstaid.html" class="text-gray-400 hover:text-white transition">First Aid Guide</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contact</h4>
+                    <ul class="space-y-2">
+                        <li class="flex items-center text-gray-400 hover:text-white transition">
+                            <i class="fas fa-envelope mr-3"></i> contact@medirapid.com
+                        </li>
+                        <li class="flex items-center text-gray-400 hover:text-white transition">
+                            <i class="fas fa-phone mr-3"></i> +91 7569884170
+                        </li>
+                        <li class="flex items-center text-gray-400 hover:text-white transition">
+                            <i class="fas fa-map-marker-alt mr-3"></i> Jalandhar.punjab
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Follow Us</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white text-xl transition">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white text-xl transition">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white text-xl transition">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white text-xl transition">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="pt-8 border-t border-gray-800 text-center text-gray-500 text-sm">
+                <p>© 2023 MediRapid Technologies. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDKbgALiFQvn2MBI5tTOzJM-pB3Plax9Xw&libraries=places"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Typing animation for hero section
+            const typed = new Typed('#typed', {
+                strings: [
+                    "Nearest Hospital Finder",
+                    "Chatbot Medical Assistance",
+                    "Life-Saving Technology"
+                ],
+                typeSpeed: 50,
+                backSpeed: 30,
+                loop: true,
+                showCursor: true,
+                cursorChar: '|',
+                smartBackspace: true
+            });
+
+            // Mobile menu toggle
+            const mobileMenuButton = document.getElementById('mobileMenuButton');
+            const mobileMenu = document.getElementById('mobileMenu');
+            
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Modal functionality
+            const findHospitalsBtn = document.getElementById('findHospitalsBtn');
+            const locationModal = document.getElementById('locationModal');
+            const closeModal = document.getElementById('closeModal');
+            const useCurrentLocation = document.getElementById('useCurrentLocation');
+            const searchLocation = document.getElementById('searchLocation');
+            const errorMessage = document.getElementById('errorMessage');
+            const emergencyTriggers = document.querySelectorAll('[id^="emergencyTrigger"]');
+            const emergencyModal = document.getElementById('emergencyModal');
+            const confirmEmergency = document.getElementById('confirmEmergency');
+            const cancelEmergency = document.getElementById('cancelEmergency');
+            const emergencyLocation = document.getElementById('emergencyLocation');
+            const aiAssistantBtn = document.getElementById('aiAssistantBtn');
+            const quickPromptBtns = document.querySelectorAll('.quick-prompt-btn');
+            const hospitalTypeBtns = document.querySelectorAll('.hospital-type-btn');
+
+            findHospitalsBtn.addEventListener('click', () => {
+                locationModal.style.display = 'block';
+            });
+
+            closeModal.addEventListener('click', () => {
+                locationModal.style.display = 'none';
+                errorMessage.classList.add('hidden');
+            });
+            window.addEventListener('click', (event) => {
+                if (event.target === locationModal) {
+                    locationModal.style.display = 'none';
+                    errorMessage.classList.add('hidden');
+                }
+                if (event.target === emergencyModal) {
+emergencyModal.style.display = 'none';
+}
+});
+        useCurrentLocation.addEventListener('click', () => {
+            if ("geolocation" in navigator) {
+                errorMessage.classList.add('hidden');
+                useCurrentLocation.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Locating...';
+                
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const { latitude, longitude } = position.coords;
+                        window.location.href = `hospitals.php?lat=${latitude}&lon=${longitude}`;
+                    },
+                    (error) => {
+                        showLocationError(error);
+                        useCurrentLocation.innerHTML = '<i class="fas fa-location-arrow mr-2"></i>Use Current Location';
+                    },
+                    { enableHighAccuracy: true, timeout: 10000 }
+                );
+            } else {
+                showLocationError("Geolocation not supported");
+            }
+        });
+        searchLocation.addEventListener('click', () => {
+            const location = document.getElementById('locationInput').value.trim();
+            
+            if (location) {
+                errorMessage.classList.add('hidden');
+                searchLocation.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+                setTimeout(() => {
+                    locationModal.style.display = 'none';
+                    searchLocation.innerHTML = '<i class="fas fa-search"></i>';
+                   
+                    simulateHospitalSearch(37.7749, -122.4194); // Default to SF coordinates for demo
+                }, 1500);
+            } else {
+                errorMessage.textContent = "Please enter a location.";
+                errorMessage.classList.remove('hidden');
+            }
+        });
+        hospitalTypeBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const specialty = this.getAttribute('data-specialty');
+              
+                this.classList.add('glow');
+                setTimeout(() => {
+                    this.classList.remove('glow');
+                }, 300);
+                
+                errorMessage.textContent = `Searching for ${specialty} hospitals...`;
+                errorMessage.classList.remove('hidden');
+                errorMessage.classList.remove('text-red-500');
+                errorMessage.classList.add('text-indigo-600');
+                
+                setTimeout(() => {
+                    locationModal.style.display = 'none';
+                    errorMessage.classList.add('hidden');
+                    simulateHospitalSearch(37.7749, -122.4194);
+                }, 1500);
+            });
+        });
+        // Emergency modal triggers
+
+// Emergency modal triggers
+document.addEventListener('DOMContentLoaded', () => {
+    const emergencyTriggers = document.querySelectorAll('[id^="emergencyTrigger"]');
+    const emergencyModal = document.getElementById('emergencyModal');
+    const confirmEmergency = document.getElementById('confirmEmergency');
+    const cancelEmergency = document.getElementById('cancelEmergency');
+    const emergencyLocation = document.getElementById('emergencyLocation');
+    const emergencyBeep = document.getElementById('emergencyBeep');
+
+    // Emergency modal triggers
+    function showEmergencyModal() {
+        emergencyModal.style.display = 'block';
+        
+        // Try to get location for emergency
+        if ("geolocation" in navigator) {
+            emergencyLocation.textContent = "Locating...";
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const { latitude, longitude } = position.coords;
+                    emergencyLocation.textContent = 
+                        `${latitude.toFixed(4)}, ${longitude.toFixed(4)}`;
+                    
+                    // Store coordinates for emergency call
+                    emergencyLocation.dataset.lat = latitude;
+                    emergencyLocation.dataset.lng = longitude;
+                },
+                (error) => {
+                    emergencyLocation.textContent = "Location unavailable";
+                    console.error("Geolocation error:", error);
+                },
+                { enableHighAccuracy: true, timeout: 10000 }
+            );
+        } else {
+            emergencyLocation.textContent = "Location services unavailable";
+        }
+    }
+
+    // Add event listeners to all emergency triggers
+    emergencyTriggers.forEach(trigger => {
+        trigger.addEventListener('click', showEmergencyModal);
+    });
+
+    // Confirm emergency button
+    confirmEmergency.addEventListener('click', () => {
+        // Play emergency sound
+        if (emergencyBeep) {
+            emergencyBeep.play();
+        }
+
+        // Get stored coordinates
+        const lat = emergencyLocation.dataset.lat;
+        const lng = emergencyLocation.dataset.lng;
+
+        // Create emergency alert
+        const alertElement = document.createElement('div');
+        alertElement.className = 'fixed top-4 left-1/2 transform -translate-x-1/2 bg-red-600 text-white px-6 py-3 rounded-lg shadow-lg z-50 flex items-center animate-fade-in';
+        alertElement.innerHTML = `
+            <i class="fas fa-exclamation-triangle mr-3"></i>
+            <span>EMERGENCY ALERT: Help is on the way!</span>
+        `;
+        document.body.appendChild(alertElement);
+
+        // Remove alert after 5 seconds
+        setTimeout(() => {
+            alertElement.classList.remove('animate-fade-in');
+            alertElement.classList.add('animate-fade-out');
+            setTimeout(() => alertElement.remove(), 300);
+        }, 5000);
+
+        // Close modal
+        emergencyModal.style.display = 'none';
+
+        // Trigger emergency call
+        triggerEmergencyCall();
+    });
+
+    // Cancel emergency button
+    cancelEmergency.addEventListener('click', () => {
+        emergencyModal.style.display = 'none';
+    });
+
+    // Close modal when clicking outside
+    window.addEventListener('click', (event) => {
+        if (event.target === emergencyModal) {
+            emergencyModal.style.display = 'none';
+        }
+    });
+
+    // Simulate emergency call function
+    function triggerEmergencyCall() {
+        const phoneNumber = "108"; // Emergency services number
+        const callAlert = document.createElement('div');
+        callAlert.className = 'fixed top-4 left-1/2 transform -translate-x-1/2 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg z-50 flex items-center';
+        callAlert.innerHTML = `
+            <i class="fas fa-phone mr-3"></i>
+            <span>Connecting to Emergency Services (${phoneNumber})...</span>
+        `;
+        document.body.appendChild(callAlert);
+
+        // Remove call alert after 3 seconds
+        setTimeout(() => {
+            callAlert.remove();
+        }, 3000);
+    }
+});   
+         
+        function simulateHospitalSearch(lat, lng) {
+            const loadingSection = document.createElement('div');
+            loadingSection.className = 'text-center py-16';
+            loadingSection.innerHTML = `
+                <div class="mx-auto h-16 w-16 bg-indigo-100 rounded-full flex items-center justify-center mb-4">
+                    <i class="fas fa-spinner fa-spin text-indigo-600 text-2xl"></i>
+                </div>
+                <h3 class="text-lg font-medium text-gray-900 mb-2">Finding nearby hospitals</h3>
+                <p class="text-gray-600">Our AI is analyzing the best medical facilities for your location</p>
+                <div class="mt-6 w-full bg-gray-200 rounded-full h-2.5 max-w-md mx-auto">
+                    <div class="bg-indigo-600 h-2.5 rounded-full animate-pulse" style="width: 45%"></div>
+                </div>
+            `;
+
+            const hero = document.querySelector('header');
+            hero.parentNode.insertBefore(loadingSection, hero.nextSibling);
+            setTimeout(() => {
+                loadingSection.remove();
+                document.getElementById('services').scrollIntoView({ behavior: 'smooth' });
+            }, 2500);
+        }
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                    
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                }
+            });
+        });
+
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.body.offsetHeight;
+            const winHeight = window.innerHeight;
+            const scrollPercent = scrollTop / (docHeight - winHeight);
+            const scrollPercentRounded = Math.round(scrollPercent * 100);
+        
+            const nav = document.querySelector('nav');
+            if (scrollTop > 10) {
+                nav.classList.add('shadow-lg');
+            } else {
+                nav.classList.remove('shadow-lg');
+            }
+        });
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fade-in');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section, .feature-card').forEach(section => {
+            observer.observe(section);
+        });
+    });
+    function initMap(lat, lng) {
+        return new google.maps.Map(document.getElementById('map'), {
+            center: { lat: lat, lng: lng },
+            zoom: 14,
+            styles: [
+                {
+                    "featureType": "poi.medical",
+                    "elementType": "labels.icon",
+                    "stylers": [
+                        { "visibility": "on" },
+                        { "color": "#4f46e5" }
+                    ]
+                },
+                {
+                    "featureType": "poi.hospital",
+                    "elementType": "geometry",
+                    "stylers": [
+                        { "color": "#f8fafc" }
+                    ]
+                }
+            ]
+        });
+    }
+    document.getElementById('feedbackForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Basic form validation
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const experience = document.getElementById('experience').value;
+    const feedback = document.getElementById('feedback').value.trim();
+    const consent = document.getElementById('consent').checked;
+    
+    if (!name || !email || !experience || !feedback) {
+        alert('Please fill out all required fields');
+        return;
+    }
+    
+    if (!consent) {
+        alert('Please provide consent to submit feedback');
+        return;
+    }
+    
+    // Create feedback object
+    const feedbackData = {
+        name: name,
+        email: email,
+        experience: experience,
+        feedback: feedback
+    };
+    
+    // Simulate form submission (replace with actual backend endpoint)
+    fetch('/submit-feedback', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(feedbackData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Show success message
+        const successAlert = document.createElement('div');
+        successAlert.className = 'fixed top-4 left-1/2 transform -translate-x-1/2 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+        successAlert.innerHTML = `
+            <i class="fas fa-check-circle mr-2"></i>
+            Thank you for your feedback!
+        `;
+        document.body.appendChild(successAlert);
+        
+        // Remove alert after 3 seconds
+        setTimeout(() => {
+            successAlert.remove();
+        }, 3000);
+        
+        // Reset form
+        this.reset();
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('There was a problem submitting your feedback. Please try again.');
+    });
+});
+
+</script>
+</body>
+</html>
