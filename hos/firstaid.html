@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>First Aid Guide - MediRapid</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        .guide-section {
+            transition: all 0.3s ease;
+        }
+        .guide-section:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        .search-dropdown:focus-within .dropdown-options {
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <nav class="bg-white shadow-lg">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIdZ5QHsaZ3GRnCvn-oq8pH_CVe56woKXYPQ&s" class="h-10 w-10 mr-3 rounded-full" alt="Logo">
+                <h1 class="text-2xl font-bold text-blue-600">MediRapid</h1>
+            </div>
+            <a href="index.html" class="bg-green-700 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition">
+                <i class="fas fa-arrow-left mr-2"></i>Back to Home
+            </a>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-4 py-12">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-blue-600 mb-4">
+                <i class="fas fa-first-aid mr-3"></i>First Aid Guide
+            </h1>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                Search for specific first aid instructions or browse common emergencies
+            </p>
+        </div>
+
+        <!-- Searchable Dropdown -->
+        <div class="max-w-2xl mx-auto mb-16 relative search-dropdown">
+            <div class="relative">
+                <input type="text" id="firstAidSearch" placeholder="Search first aid procedures (e.g., burns, choking)"
+                       class="w-full p-4 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                <button type="button" title="Search" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            <div class="dropdown-options hidden absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-96 overflow-y-auto">
+                <!-- Options will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Emergency Basics Section -->
+        <section class="mb-16">
+            <h2 class="text-2xl font-bold mb-6 text-gray-800 border-b pb-2">Emergency Basics</h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow-md guide-section">
+                    <div class="text-red-500 text-3xl mb-4">
+                        <i class="fas fa-phone-alt"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Call for Help</h3>
+                    <p class="text-gray-600 mb-4">Dial emergency services immediately for serious situations:</p>
+                    <ul class="list-disc pl-5 space-y-2 text-gray-600">
+                        <li>India: 112 or 102 (ambulance)</li>
+                        <li>US: 911</li>
+                        <li>EU: 112</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md guide-section">
+                    <div class="text-blue-500 text-3xl mb-4">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Assess Safety</h3>
+                    <p class="text-gray-600">Check for dangers before approaching:</p>
+                    <ul class="list-disc pl-5 space-y-2 text-gray-600 mt-2">
+                        <li>Traffic or fire hazards</li>
+                        <li>Electrical dangers</li>
+                        <li>Violent situations</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md guide-section">
+                    <div class="text-green-500 text-3xl mb-4">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Check Responsiveness</h3>
+                    <p class="text-gray-600">Gently shake and shout at the person:</p>
+                    <ul class="list-disc pl-5 space-y-2 text-gray-600 mt-2">
+                        <li>Look for breathing</li>
+                        <li>Check for severe bleeding</li>
+                        <li>Look for medical alert jewelry</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Common Procedures Section -->
+        <section id="procedures" class="grid md:grid-cols-2 gap-8">
+            <!-- Content will be populated by JavaScript based on selection -->
+        </section>
+    </main>
+
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4 text-center">
+            <p class="mb-4">For comprehensive first aid training, contact:</p>
+            <div class="flex justify-center space-x-8 mb-6">
+                <a href="#" class="hover:text-blue-400">Indian Red Cross Society</a>
+                
+            </div>
+            <p>&copy; 2023 MediRapid. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // First Aid Database
+        const firstAidProcedures = {
+            "bleeding": {
+                title: "Severe Bleeding",
+                icon: "fa-tint",
+                color: "text-red-500",
+                steps: [
+                    "1. Apply direct pressure to the wound with a clean cloth or bandage",
+                    "2. Elevate the injured area above heart level if possible",
+                    "3. If blood soaks through, add more cloth without removing the first layer",
+                    "4. When bleeding stops, secure the dressing with a bandage",
+                    "5. For amputations, preserve the severed part in a clean plastic bag on ice"
+                ],
+                donts: [
+                    "Don't remove embedded objects",
+                    "Don't use a tourniquet unless trained",
+                    "Don't clean large wounds"
+                ]
+            },
+            "burns": {
+                title: "Burns",
+                icon: "fa-fire",
+                color: "text-orange-500",
+                steps: [
+                    "1. Cool the burn under cool (not cold) running water for 10-15 minutes",
+                    "2. Remove jewelry or tight clothing near the burned area",
+                    "3. Cover loosely with sterile, nonstick bandage",
+                    "4. For chemical burns, flush with plenty of water",
+                    "5. Give pain relievers like ibuprofen if needed"
+                ],
+                donts: [
+                    "Don't apply ice directly to burns",
+                    "Don't break blisters",
+                    "Don't apply butter or ointments"
+                ]
+            },
+            "choking": {
+                title: "Choking (Heimlich Maneuver)",
+                icon: "fa-lungs",
+                color: "text-blue-500",
+                steps: [
+                    "1. Ask 'Are you choking?' - if they can cough or speak, let them try to clear it",
+                    "2. Stand behind the person, wrap arms around their waist",
+                    "3. Make a fist with one hand, thumb side in, place above navel",
+                    "4. Grasp fist with other hand, give quick upward thrusts",
+                    "5. Continue until object is expelled or person becomes unconscious"
+                ],
+                donts: [
+                    "Don't perform on someone who is coughing effectively",
+                    "Don't slap on the back for adults",
+                    "Don't use on pregnant women or infants (use special techniques)"
+                ]
+            },
+            "fracture": {
+                title: "Fractures/Sprains",
+                icon: "fa-bone",
+                color: "text-purple-500",
+                steps: [
+                    "1. Immobilize the injured area - don't try to realign bones",
+                    "2. Apply ice wrapped in cloth for 15-20 minutes every 2-3 hours",
+                    "3. Elevate the injury if possible",
+                    "4. For open fractures, cover wound with sterile dressing",
+                    "5. Support the injury with a splint or sling"
+                ],
+                donts: [
+                    "Don't attempt to push bones back into place",
+                    "Don't test a fracture by moving it",
+                    "Don't apply heat in first 48 hours"
+                ]
+            },
+            "cpr": {
+                title: "CPR (Adults)",
+                icon: "fa-heartbeat",
+                color: "text-red-600",
+                steps: [
+                    "1. Place heel of hand on center of chest, other hand on top",
+                    "2. Push hard and fast (100-120 compressions/minute)",
+                    "3. Compress chest at least 2 inches (5 cm)",
+                    "4. After 30 compressions, give 2 rescue breaths if trained",
+                    "5. Continue until help arrives or person shows signs of life"
+                ],
+                donts: [
+                    "Don't stop except to use AED or if scene becomes unsafe",
+                    "Don't worry about breaking ribs - it happens",
+                    "Don't give up - even imperfect CPR helps"
+                ]
+            },
+            "shock": {
+                title: "Shock",
+                icon: "fa-procedures",
+                color: "text-gray-600",
+                steps: [
+                    "1. Lay person down and elevate legs 12 inches unless injured",
+                    "2. Keep person still and don't move unless necessary",
+                    "3. Loosen tight clothing and cover with blanket",
+                    "4. Don't give anything to eat or drink",
+                    "5. Turn person on side if vomiting or bleeding from mouth"
+                ],
+                donts: [
+                    "Don't let the person eat or drink",
+                    "Don't leave alone except to call for help",
+                    "Don't elevate head if head/neck/back injury suspected"
+                ]
+            }
+        };
+
+        // DOM Elements
+        const searchInput = document.getElementById('firstAidSearch');
+        const dropdownOptions = document.querySelector('.dropdown-options');
+        const proceduresSection = document.getElementById('procedures');
+
+        // Populate dropdown options
+        function populateDropdown() {
+            dropdownOptions.innerHTML = '';
+            const searchTerm = searchInput.value.toLowerCase();
+            
+            Object.keys(firstAidProcedures).forEach(key => {
+                const procedure = firstAidProcedures[key];
+                if (procedure.title.toLowerCase().includes(searchTerm) || key.includes(searchTerm)) {
+                    const option = document.createElement('div');
+                    option.className = 'p-3 hover:bg-blue-50 cursor-pointer border-b border-gray-100';
+                    option.innerHTML = `
+                        <div class="flex items-center">
+                            <i class="fas ${procedure.icon} ${procedure.color} mr-3"></i>
+                            <span>${procedure.title}</span>
+                        </div>
+                    `;
+                    option.addEventListener('click', () => {
+                        searchInput.value = procedure.title;
+                        dropdownOptions.classList.add('hidden');
+                        displayProcedure(key);
+                    });
+                    dropdownOptions.appendChild(option);
+                }
+            });
+            
+            if (dropdownOptions.children.length === 0) {
+                const option = document.createElement('div');
+                option.className = 'p-3 text-gray-500';
+                option.textContent = 'No matching procedures found';
+                dropdownOptions.appendChild(option);
+            }
+        }
+
+        // Display selected procedure
+        function displayProcedure(key) {
+            const procedure = firstAidProcedures[key];
+            proceduresSection.innerHTML = `
+                <div class="bg-white p-6 rounded-lg shadow-lg guide-section">
+                    <div class="${procedure.color} text-4xl mb-4">
+                        <i class="fas ${procedure.icon}"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">${procedure.title}</h3>
+                    <h4 class="text-xl font-semibold mb-3 text-green-600">What to Do:</h4>
+                    <ul class="list-decimal pl-5 space-y-2 mb-6 text-gray-700">
+                        ${procedure.steps.map(step => `<li>${step}</li>`).join('')}
+                    </ul>
+                    <h4 class="text-xl font-semibold mb-3 text-red-600">What NOT to Do:</h4>
+                    <ul class="list-disc pl-5 space-y-2 text-gray-700">
+                        ${procedure.donts.map(dont => `<li>${dont}</li>`).join('')}
+                    </ul>
+                </div>
+                <div class="bg-blue-50 p-6 rounded-lg">
+                    <h4 class="text-xl font-semibold mb-3 text-blue-600">
+                        <i class="fas fa-info-circle mr-2"></i>Important Notes
+                    </h4>
+                    <p class="text-gray-700 mb-4">
+                        For serious injuries or if symptoms worsen, seek professional medical help immediately.
+                    </p>
+                    <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+                            onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                        <i class="fas fa-arrow-up mr-2"></i>Back to Search
+                    </button>
+                </div>
+            `;
+            
+            // Scroll to procedures section
+            proceduresSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Event Listeners
+        searchInput.addEventListener('input', populateDropdown);
+        searchInput.addEventListener('focus', () => {
+            if (searchInput.value) {
+                dropdownOptions.classList.remove('hidden');
+            }
+        });
+
+        // Display all procedures initially
+        function displayAllProcedures() {
+            proceduresSection.innerHTML = '';
+            Object.keys(firstAidProcedures).forEach(key => {
+                const procedure = firstAidProcedures[key];
+                const procedureCard = document.createElement('div');
+                procedureCard.className = 'bg-white p-6 rounded-lg shadow-md guide-section cursor-pointer';
+                procedureCard.innerHTML = `
+                    <div class="flex items-center mb-4">
+                        <div class="${procedure.color} text-3xl mr-4">
+                            <i class="fas ${procedure.icon}"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold">${procedure.title}</h3>
+                    </div>
+                    <p class="text-gray-600">Click for detailed instructions</p>
+                `;
+                procedureCard.addEventListener('click', () => displayProcedure(key));
+                proceduresSection.appendChild(procedureCard);
+            });
+        }
+
+        // Initialize
+        displayAllProcedures();
+    </script>
+</body>
+</html>
